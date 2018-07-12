@@ -12,7 +12,7 @@ func main() {
 	ws := melody.New()
 
 	// Serve frontend static files
-	router.Use(static.Serve("/", static.LocalFile("./views", true)))
+	router.Use(static.Serve("/", static.LocalFile("./dist", true)))
 
 	router.GET("/ws", func(c *gin.Context) {
 		ws.HandleRequest(c.Writer, c.Request)
