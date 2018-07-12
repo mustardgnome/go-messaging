@@ -1,13 +1,18 @@
 module.exports = {
   entry: [
-    './src/index.js'
+    './src/index.jsx'
   ],
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: [{
+        loader: 'babel-loader',
+        options: {
+          presets: ['react']
+        }
+      }]
       }
     ]
   },
@@ -15,9 +20,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx']
   },
   output: {
-    path: __dirname + '/dist',
-    publicPath: '/',
-    filename: 'bundle.js'
+    filename: './dist/bundle.js'
   },
   devServer: {
     contentBase: './dist'
