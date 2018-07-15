@@ -13,7 +13,7 @@ func main() {
 
 	// Serve frontend static files
 	router.Use(static.Serve("/", static.LocalFile("./dist", true)))
-
+	router.Use(static.Serve("/", static.LocalFile("./assets", true)))
 	router.GET("/ws", func(c *gin.Context) {
 		ws.HandleRequest(c.Writer, c.Request)
 	})

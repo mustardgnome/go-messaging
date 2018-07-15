@@ -1,7 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-function socketSetup () {
+class ChatRoom extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { messages: [] };
+    this.ws = new WebSocket("ws:localhost:3000/ws");;
+    this.initSocket = this.initSocket.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+  }
+
+
+
+ }
+
+function Time () {
 	let ws = new WebSocket("ws:localhost:3000/ws");
 	const element = (
 		<div>
@@ -15,11 +28,10 @@ function socketSetup () {
 	ReactDOM.render(element, document.getElementById('app'));
 }
 	
-setInterval(socketSetup, 1000);
+setInterval(Time, 1000);
 
 
-// initSocket () {
-//     //ws = new WebSocket("ws://" + window.location.host + "/ws");
-//     // ws.onmessage = document.getElementById("chat");
-//   }
+// Create a new component, open the websocket in the constructor, and update its state when you get a new message
+// In the state you can have an array with the messages
+// In a render function, you render all the messages
 

@@ -20,7 +20,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx']
   },
   output: {
-    filename: './dist/bundle.js'
+    filename: './bundle.js'
   },
   devServer: {
     contentBase: './dist'
