@@ -4,28 +4,29 @@ import ReactDOM from 'react-dom';
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { messages: [] };
-    this.ws = new WebSocket("ws:localhost:3000/ws");;
-    this.initSocket = this.initSocket.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
+    // this.state = { messages: [] };
+    this.ws;
   }
 
-
-
- }
-
-function Time () {
-	let ws = new WebSocket("ws:localhost:3000/ws");
+Time () {
 	const element = (
 		<div>
     	  <h2>It is {new Date().toLocaleTimeString()}.</h2>
     	  <div id="chat"></div>
     	</div>
 	);
-	ws.onmessage = (msg) => {
-			getElementById("chat").innerHTML = msg.data
-		}
 	ReactDOM.render(element, document.getElementById('app'));
+}
+
+onMessage () {
+	this.ws = new WebSocket("ws://localhost:3000/ws");
+	var chat = document.getElementById("chat")
+	this.ws.onmessage = (msg) => {
+		var line =  now() + " " + msg.data + "\n";
+        chat.innerText += line;
+	}
+}
+
 }
 	
 setInterval(Time, 1000);

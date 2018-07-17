@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gin-gonic/contrib/static"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/olahol/melody.v1"
 )
@@ -12,8 +12,8 @@ func main() {
 	ws := melody.New()
 
 	// Serve frontend static files
-	router.Use(static.Serve("/", static.LocalFile("./dist", true)))
 	router.Use(static.Serve("/", static.LocalFile("./assets", true)))
+	router.Use(static.Serve("/", static.LocalFile("./dist", true)))
 	router.GET("/ws", func(c *gin.Context) {
 		ws.HandleRequest(c.Writer, c.Request)
 	})
