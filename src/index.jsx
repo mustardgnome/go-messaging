@@ -43,8 +43,8 @@ class Chat extends React.Component {
         messages: [],
         value : ''
     };
-    this.ws;
-    this.initSocket = this.initSocket.bind(this);
+    this.ws = new WebSocket("ws://localhost:3000/ws");
+    this.handleMessage = this.handleMessage.bind(this);
     this.submitText = this.submitText.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -53,8 +53,7 @@ class Chat extends React.Component {
     this.setState({value: event.target.value});
   }
 
-  initSocket () {
-    this.ws = new WebSocket("ws://localhost:3000/ws");
+  handleMessage () {
     this.ws.onmessage = (msg) => {
         this.state.messages.push(msg.data);
         this.setState({ messages: this.state.messages });
@@ -65,6 +64,8 @@ class Chat extends React.Component {
   submitText(event) {
     event.preventDefault();
     this.ws.send(this.state.value)
+    this.handleMessage();
+    console.log(this.state.value);
   }
 
   render() {
