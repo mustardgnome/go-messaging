@@ -5,19 +5,10 @@ class Time extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        // messages: [],
         date: new Date()
     };
-    // this.ws = new WebSocket("ws://localhost:3000/ws");
+    
   }
-
-  // onMessage () {
-  //   var chat = document.getElementById("chat")
-  //   this.ws.onmessage = (msg) => {
-  //        var line =  now() + " " + msg.data + "\n";
-  //           chat.innerText += line;
-  //    }
-  // }
 
   componentDidMount() {
     this.timerID = setInterval(
@@ -45,8 +36,37 @@ class Time extends React.Component {
   }
 }
 
+class Chat extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        messages: []
+    };
+    this.ws;
+    this.initSocket = this.initSocket.bind(this);
+  }
+
+  initSocket () {
+    this.ws = new WebSocket("ws://localhost:3000/ws");
+    this.ws.onmessage = (msg) => {
+        this.state.messages.push(msg.data);
+        this.setState({ messages: this.state.messages });
+    }
+  }
+
+  render() {
+    return (
+    <div>
+      <Time />
+      <h1>{this.state.messages}</h1>
+    </div>
+    );
+  }
+}
+
+
 ReactDOM.render(
-  <Time />,
+  <Chat />,
   document.getElementById('app')
 );
 
