@@ -1,35 +1,54 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class ChatRoom extends React.Component {
+class Time extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = { messages: [] };
-    this.ws;
+    this.state = {
+        // messages: [],
+        date: new Date()
+    };
+    // this.ws = new WebSocket("ws://localhost:3000/ws");
   }
 
-Time () {
-	const element = (
-		<div>
-    	  <h2>It is {new Date().toLocaleTimeString()}.</h2>
-    	  <div id="chat"></div>
-    	</div>
-	);
-	ReactDOM.render(element, document.getElementById('app'));
+  // onMessage () {
+  //   var chat = document.getElementById("chat")
+  //   this.ws.onmessage = (msg) => {
+  //        var line =  now() + " " + msg.data + "\n";
+  //           chat.innerText += line;
+  //    }
+  // }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    ); 
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h2>{this.state.date.toLocaleTimeString()}</h2>
+      </div>
+    );
+  }
 }
 
-onMessage () {
-	this.ws = new WebSocket("ws://localhost:3000/ws");
-	var chat = document.getElementById("chat")
-	this.ws.onmessage = (msg) => {
-		var line =  now() + " " + msg.data + "\n";
-        chat.innerText += line;
-	}
-}
-
-}
-	
-setInterval(Time, 1000);
+ReactDOM.render(
+  <Time />,
+  document.getElementById('app')
+);
 
 
 // Create a new component, open the websocket in the constructor, and update its state when you get a new message
