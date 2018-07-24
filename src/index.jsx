@@ -58,6 +58,8 @@ class Chat extends React.Component {
     this.ws.onmessage = (msg) => {
         this.state.messages.push(msg.data);
         this.setState({ messages: this.state.messages });
+        var elem = document.getElementById('chatBody');
+        elem.scrollTop = elem.scrollHeight;
     }
     this.state.messages.map(msg => <div key={msg}>{msg}</div>)
   }
@@ -84,9 +86,8 @@ class Chat extends React.Component {
         <body id="chatBody">{this.state.messages}</body>
       </div>
       
-      <form id="chatSubmit" onSubmit={this.submitText}>
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
-        <input type="submit" value="Submit" />
+      <form onSubmit={this.submitText}>
+        <input id="chatSubmit" type="text" value={this.state.value} onChange={this.handleChange} />
       </form>
    
     </div>

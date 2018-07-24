@@ -1,7 +1,24 @@
 #chatBody {
 	white-space: pre-line;
+	overflow:auto;
+	height: 494px;
+	width: 794px;
 }
 
 #chatContainer {
-	background-color: gray;
+	overflow:auto;
+	white-space: nowrap;
+  	display: table;
+  	height: 500px;
+  	width: 800px;
+  	margin:0 auto;
+	border: 2px solid black;
+	background-color: #d3d3d3;
+}
+
+#chatSubmit {
+	display: table;
+	margin: 0 auto;
+	width: 808px;
+	border: 2px solid black;
 }
