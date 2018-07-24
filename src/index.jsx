@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 
 class Time extends React.Component {
   constructor(props) {
@@ -61,22 +62,33 @@ class Chat extends React.Component {
     this.state.messages.map(msg => <div key={msg}>{msg}</div>)
   }
 
+  generateTimestamp () {
+    var iso = new Date().toISOString();
+    return iso.split("T")[1].split(".")[0];
+  }
+
   submitText(event) {
     event.preventDefault();
-    this.ws.send(this.state.value)
-    this.handleMessage();
+    this.ws.send(this.state.value + "\n")
     console.log(this.state.value);
+    this.state.value = "";
   }
 
   render() {
     return (
     <div>
+      {this.handleMessage()}
       <Time />
-      <h1>{this.state.messages}</h1>
-      <form onSubmit={this.submitText}>
+      
+      <div id="chatContainer">
+        <body id="chatBody">{this.state.messages}</body>
+      </div>
+      
+      <form id="chatSubmit" onSubmit={this.submitText}>
         <input type="text" value={this.state.value} onChange={this.handleChange} />
         <input type="submit" value="Submit" />
       </form>
+   
     </div>
     );
   }
