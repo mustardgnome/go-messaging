@@ -48,10 +48,27 @@ class Chat extends React.Component {
     this.handleMessage = this.handleMessage.bind(this);
     this.submitText = this.submitText.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.makeid = this.makeid.bind(this);
+    this.user = "";
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
+  }
+
+  makeid () {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (var i = 0; i < 5; i++){
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+
+    this.user = text;
+  }
+
+  componentDidMount(){
+    this.makeid();
   }
 
   handleMessage () {
@@ -71,9 +88,12 @@ class Chat extends React.Component {
 
   submitText(event) {
     event.preventDefault();
-    this.ws.send(this.state.value + "\n")
-    console.log(this.state.value);
-    this.state.value = "";
+    if(this.state.value == "")
+        return false;
+    else
+        this.ws.send("<" + this.generateTimestamp() + ">" + " " + this.user +": " + this.state.value + "\n")
+        console.log(this.user);
+        this.state.value = "";
   }
 
   render() {
@@ -83,7 +103,7 @@ class Chat extends React.Component {
       <Time />
       
       <div id="chatContainer">
-        <body id="chatBody">{this.state.messages}</body>
+        <div id="chatBody">{this.state.messages}</div>
       </div>
       
       <form onSubmit={this.submitText}>

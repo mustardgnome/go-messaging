@@ -1,14 +1,16 @@
 #chatBody {
+	margin:0 auto;
 	white-space: pre-line;
 	overflow:auto;
-	height: 494px;
-	width: 794px;
+	width: 780px; 
+    height: 475px;
+    padding: 10px;
+    position: relative;
+    font-size: 10pt;
+    font-family: Tahoma, Geneva, sans-serif;
 }
 
 #chatContainer {
-	overflow:auto;
-	white-space: nowrap;
-  	display: table;
   	height: 500px;
   	width: 800px;
   	margin:0 auto;
@@ -19,6 +21,6 @@
 #chatSubmit {
 	display: table;
 	margin: 0 auto;
-	width: 808px;
+	width: 798px;
 	border: 2px solid black;
 }
