@@ -46,6 +46,7 @@ class Chat extends React.Component {
     };
     this.ws = new WebSocket("ws://localhost:3000/ws");
     this.handleMessage = this.handleMessage.bind(this);
+    this.ws.onmessage = this.handleMessage.bind(this);
     this.submitText = this.submitText.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.makeid = this.makeid.bind(this);
@@ -57,8 +58,8 @@ class Chat extends React.Component {
   }
 
   makeid () {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let text = "";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
         for (var i = 0; i < 5; i++){
             text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -71,18 +72,15 @@ class Chat extends React.Component {
     this.makeid();
   }
 
-  handleMessage () {
-    this.ws.onmessage = (msg) => {
+  handleMessage (msg) {
         this.state.messages.push(msg.data);
         this.setState({ messages: this.state.messages });
-        var elem = document.getElementById('chatBody');
+        const elem = document.getElementById('chatBody');
         elem.scrollTop = elem.scrollHeight;
-    }
-    this.state.messages.map(msg => <div key={msg}>{msg}</div>)
   }
 
   generateTimestamp () {
-    var iso = new Date().toISOString();
+    let iso = new Date().toISOString();
     return iso.split("T")[1].split(".")[0];
   }
 
@@ -91,7 +89,7 @@ class Chat extends React.Component {
     if(this.state.value == "")
         return false;
     else
-        this.ws.send("<" + this.generateTimestamp() + ">" + " " + this.user +": " + this.state.value + "\n")
+        this.ws.send(`<${this.generateTimestamp()}> ${this.user}: ${this.state.value}\n`)
         console.log(this.user);
         this.state.value = "";
   }
@@ -99,11 +97,10 @@ class Chat extends React.Component {
   render() {
     return (
     <div>
-      {this.handleMessage()}
       <Time />
       
       <div id="chatContainer">
-        <div id="chatBody">{this.state.messages}</div>
+        <div id="chatBody">{this.state.messages.map(msg => <div key={msg}>{msg}</div>)}</div>
       </div>
       
       <form onSubmit={this.submitText}>
