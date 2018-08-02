@@ -49,6 +49,7 @@ class Chat extends React.Component {
     this.ws.onmessage = this.handleMessage.bind(this);
     this.submitText = this.submitText.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.userid = "";
     this.makeid = this.makeid.bind(this);
     this.chooseId = this.chooseId.bind(this);
     this.user = "";
@@ -61,13 +62,13 @@ class Chat extends React.Component {
   //if you want a random username ...
   makeid () {
     let text = "";
-    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const possible = "0123456789";
 
-        for (var i = 0; i < 5; i++){
+        for (var i = 0; i < 4; i++){
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
 
-    this.user = text;
+    this.userid = text;
   }
 
   chooseId(event){
@@ -87,7 +88,8 @@ class Chat extends React.Component {
   }
 
   componentDidMount(){
-    // this.makeid();  
+    this.makeid();
+    this.nameInput.focus();  
   }
 
   handleMessage (msg) {
@@ -108,7 +110,7 @@ class Chat extends React.Component {
         return false;
     }
     else {
-        this.ws.send(`<${this.generateTimestamp()}> ${this.user}: ${this.state.value}\n`)
+        this.ws.send(`<${this.generateTimestamp()}> ${this.user}#${this.userid}: ${this.state.value}\n`)
         console.log(this.user);
         this.state.value = "";
     }
@@ -120,7 +122,7 @@ class Chat extends React.Component {
       <Time />
       <div id="cover">
         <form onSubmit={this.chooseId}>
-          <input id="usersubmit" type="text" value={this.state.value} onChange={this.handleChange} />
+          <input id="usersubmit" type="text" value={this.state.value} onChange={this.handleChange} ref={(input) => { this.nameInput = input; }} />
         </form>
       </div>
       <div id="chatContainer">
